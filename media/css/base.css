@@ -1,0 +1,84 @@
+body {
+    margin: 2em;
+    font-family: sans-serif;
+}
+
+    #header_top_title h1 {
+        font-size: 20pt;
+        float: left; 
+    }
+
+    .topright {
+        float: right;
+    }
+
+    .heavybar {
+        clear: both;
+    }
+
+    .options {
+        display: inline;
+        float: right;
+        font-size: 10pt;
+    }
+        .options a {
+            text-decoration: underline;
+            color: blue;
+        }
+        .options a:visited {
+            color: blue;
+        }
+        .options .note {
+            color: #ccc;
+        }
+
+    #header_main_menu form {
+        display: inline;
+    }
+
+.bookmarklet {
+    border: 1px solid #777;
+    color: #777;
+    background: #ddd;
+    padding: 3px;
+}
+    a.bookmarklet {
+        color: #777;
+        text-decoration: none;
+    }
+
+input {
+    border: 1px solid #ccc;
+    height: 30px;
+}
+input[type=checkbox] {
+    height: auto;
+    border: none;
+}
+
+.link-list {
+    list-style: none;
+}
+    .link {
+        margin: 1em;
+        padding: 1em;
+        background: #ccc;
+    }
+        .link:hover {
+            background: #ddd;
+        }
+        .link a {
+            color: #335;
+            text-decoration: none;
+        }
+            .link a.original {
+                display: none;
+            }
+        .link label {
+            float: right;
+            color: #888;
+        }
+
+        .link.just_added {
+            background: #ffc;
+        }

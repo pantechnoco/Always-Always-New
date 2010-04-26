@@ -1,0 +1,153 @@
+{% load i18n %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        {% block metadata %}{% endblock %}
+        <title>{% if site_name %}{{ site_name }} : {% endif %}{% block title %}Always Always New{% endblock %}</title>
+        <!--[if IE]><style>
+            div {
+                zoom: 1; /* trigger hasLayout */
+            }
+        </style><![endif]-->
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.0r4/build/reset/reset-min.css">
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" />
+        <link rel="SHORTCUT ICON" href="{{ MEDIA_URL }}/favicon.ico"/>
+        
+        {% block stylesheets %}{% endblock %}
+
+        {% if LANGUAGE_BIDI %}
+        <style type="text/css" media="screen">
+            div.right_panel {
+                float: left; /* hotfix for sidebar */
+            }
+        </style>
+        {% endif %}
+
+        {% block extra_head_base %}
+            {% block extra_head %}{% endblock %}
+        {% endblock %}
+
+    </head>
+    
+    <body>
+        {% if site_wide_announcements %}
+            <div id="site_wide_announcements">
+                <ul>
+                    {% for announcement in site_wide_announcements %}
+                    <li>
+                        <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
+                        <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div id="header">
+            {% block header %}
+            <div id="header_top_container">
+                <div id="header_top_title">
+                    <h1>Always Always New</h1>
+                    <span class="topright">
+                        <a href="http://pantechnoco.com/"><img src="{{ MEDIA_URL }}images/athoughtbypantechnoco_small.png" /></a>
+                    </span>
+                </div>
+                <span id="header_main_menu">
+                    <hr class="heavybar" />
+                    <form action="/submit_link/" method="get">
+                        <input name="title" id="title"></input>
+                        <input name="new_url" id="new_url"></input>
+                        <input name="flags" type="hidden" value="direct"></input>
+                        <input type="submit" id="add_url" value="+" />
+                    </form>
+                    <div class="options">
+                        <label for="hide_checked">only new</label>
+                        <input type="checkbox" id="hide_visited" checked="checked"></input> 
+                        <span class="note">(drag to your toolbar)</span>
+                        <a class="bookmarklet" href="javascript:window.location='http://alwaysalwaysnew.pantechnoco.com/submit_link/?new_url='+escape(window.location)+'&title='+escape(document.title)+'&flags=bookmarklet';">Add to Always Always New</a>
+                    </div>
+                </span>
+            </div>
+            {% endblock %}
+        </div>
+       
+        {% block above_content %}{% endblock %}
+
+        {% block right_panel %}
+        <div class="right_panel">
+        </div>
+        {% endblock %}
+
+        <div class="left_panel">
+            <div id="body">
+                {% if messages %}
+                    <ul id="messages">
+                        {% for message in messages %}
+                        <li id="message_{{ forloop.counter }}"><a href="#" onclick="$('#message_{{ forloop.counter }}').fadeOut(); return false;"><small>{% trans "clear" %}</small></a> {{ message|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+               
+                {% block content_title %}{% endblock %}
+
+                {% block content %}
+                {% endblock %}
+                
+            </div>
+        </div>
+
+        <div id="footer">{% block footer %}
+            Copyright 2010 Calvin Spealman and PanTechnoco | This is just for fun. Enjoy! 
+        {% endblock %}</div>
+        
+        {% block extra_body_base %}
+            {% block extra_body %}{% endblock %}
+        {% endblock %}
+    
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js" type="text/javascript"></script>
+        <script src="{{ MEDIA_URL }}js/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+        <script src="{{ MEDIA_URL }}js/jquery.watermark.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+            var visited = $('.link:not(.just_added) a.original:visited').parent().css('background', '#bbc');
+            var unvisited = $('.link:not(.just_added) a.original:not(:visited)').parent();
+
+            function hide_visited() {
+                visited.hide();
+                unvisited.show();
+            }
+            function show_visited() {
+                visited.show();
+                unvisited.hide();
+            }
+            function show_hide() {
+                var hide = $(this).attr('checked');
+                if (hide) {
+                    hide_visited();
+                } else {
+                    show_visited();
+                }
+
+            }
+            show_hide.apply( $('#hide_visited').change(show_hide) );
+            $('#title').watermark('Title');
+            $('#new_url').watermark('http://');
+        });
+        </script>
+                        {% block scripts %}{% endblock %}
+
+        {% ifequal request.get_host "alwaysalwaysnew.pantechnoco.com" %}
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-953592-10");
+        pageTracker._trackPageview();
+        } catch(err) {}</script>
+        {% endifequal %}
+    </body>
+</html>

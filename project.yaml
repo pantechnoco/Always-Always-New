@@ -1,2 +1,6 @@
-{DEBUG: true, domain: alwaysalwaysnew.pantechnoco.com, project_library: alwaysalwaysnew,
-  version: '0.1'}
+DEBUG: true
+domain: alwaysalwaysnew.pantechnoco.com
+project_library: alwaysalwaysnew
+version: '0.11'
+django_apps:
+- aanew

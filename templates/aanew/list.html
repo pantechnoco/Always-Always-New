@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul class="link-list">
+        {% for link in links %}
+            <li class="link{% ifequal link.id just_added %} just_added{% endifequal %}">
+                <a href="{{ link.url }}" class="original">*</a>
+                <a href="{% url follow_link link.id %}">{{ link.title }}</a>
+                <label>{{ link.url }}</label> 
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
