@@ -132,8 +132,29 @@
 
             }
             show_hide.apply( $('#hide_visited').change(show_hide) );
-            $('#title').watermark('Title');
-            $('#new_url').watermark('http://');
+            var title = $('#title');
+            var new_url = $('#new_url');
+            title.watermark('Title');
+
+            new_url.data('auto', true);
+            new_url.watermark('http://');
+
+            new_url.keyup(function(){
+                if (new_url.data('auto')) {
+                    var requested_title_url = new_url.val();
+                    if (requested_title_url.length > 0) {
+                        $.getJSON('/linktools/title/', {url: requested_title_url}, function(resp) {
+                            if (new_url.val() == requested_title_url) {
+                                title.val(resp.title);
+                                title.watermark({remove: true});
+                            }
+                        });
+                    } else {
+                        title.watermark('Title');
+                        title.val('');
+                    }
+                }
+            });
         });
         </script>
                         {% block scripts %}{% endblock %}

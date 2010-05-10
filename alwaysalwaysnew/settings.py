@@ -138,6 +138,8 @@ INSTALLED_APPS = (
     
         'aanew',
     
+        'linktools',
+    
 )
 
 

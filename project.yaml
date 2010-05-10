@@ -4,3 +4,4 @@ project_library: alwaysalwaysnew
 version: '0.12'
 django_apps:
 - aanew
+- linktools
